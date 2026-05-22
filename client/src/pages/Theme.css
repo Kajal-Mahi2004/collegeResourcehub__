@@ -1,0 +1,257 @@
+.theme-container {
+  max-width: 1000px;
+  margin: 40px auto;
+  padding: 20px;
+}
+
+.theme-container h1 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 40px;
+  font-size: 2.5em;
+}
+
+.settings-section {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 25px;
+  margin-bottom: 40px;
+}
+
+.setting-card {
+  background: #f9f9f9;
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  border-left: 4px solid #007bff;
+}
+
+.setting-card h2 {
+  margin-top: 0;
+  color: #333;
+  font-size: 1.5em;
+}
+
+.setting-card p {
+  color: #666;
+  margin-bottom: 20px;
+  font-size: 0.95em;
+}
+
+.theme-options,
+.font-options,
+.color-options {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.setting-card label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  padding: 10px;
+  border-radius: 5px;
+  transition: all 0.3s ease;
+}
+
+.setting-card label:hover {
+  background: rgba(0, 123, 255, 0.1);
+}
+
+.setting-card input[type="radio"] {
+  cursor: pointer;
+  width: 18px;
+  height: 18px;
+}
+
+.setting-card label span {
+  font-size: 1em;
+  color: #333;
+  font-weight: 500;
+}
+
+.preview-section {
+  background: #f0f0f0;
+  padding: 30px;
+  border-radius: 10px;
+  margin-bottom: 40px;
+}
+
+.preview-section h2 {
+  color: #333;
+  margin-top: 0;
+  margin-bottom: 20px;
+}
+
+.preview-box {
+  background: white;
+  padding: 25px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.preview-box h3 {
+  color: #333;
+  margin-top: 0;
+  font-size: 1.8em;
+}
+
+.preview-box p {
+  color: #666;
+  line-height: 1.6;
+  margin: 15px 0;
+}
+
+.preview-btn {
+  background: #007bff;
+  color: white;
+  border: none;
+  padding: 12px 30px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1em;
+  transition: all 0.3s ease;
+}
+
+.preview-btn:hover {
+  background: #0056b3;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.info-section {
+  background: #e8f4f8;
+  padding: 30px;
+  border-radius: 10px;
+  border-left: 4px solid #17a2b8;
+}
+
+.info-section h2 {
+  color: #333;
+  margin-top: 0;
+  margin-bottom: 20px;
+}
+
+.info-section ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.info-section li {
+  padding: 12px;
+  margin-bottom: 10px;
+  background: white;
+  border-radius: 5px;
+  color: #666;
+  line-height: 1.6;
+}
+
+.info-section strong {
+  color: #333;
+}
+
+/* Theme CSS Variables */
+:root {
+  --primary-color: #007bff;
+  --secondary-color: #6c757d;
+  --success-color: #28a745;
+  --danger-color: #dc3545;
+  --warning-color: #ffc107;
+  --light-bg: #f9f9f9;
+  --dark-bg: #333;
+  --text-color: #333;
+  --border-color: #ddd;
+}
+
+/* Light Theme */
+body.theme-light {
+  background-color: white;
+  color: #333;
+}
+
+body.theme-light .theme-container {
+  color: #333;
+}
+
+/* Dark Theme */
+body.theme-dark {
+  background-color: #1e1e1e;
+  color: #e0e0e0;
+}
+
+body.theme-dark .theme-container {
+  color: #e0e0e0;
+}
+
+body.theme-dark .setting-card {
+  background: #2d2d2d;
+  color: #e0e0e0;
+}
+
+body.theme-dark .setting-card h2,
+body.theme-dark .setting-card p {
+  color: #e0e0e0;
+}
+
+body.theme-dark .preview-section {
+  background: #2d2d2d;
+}
+
+body.theme-dark .preview-box {
+  background: #1e1e1e;
+  color: #e0e0e0;
+}
+
+body.theme-dark .info-section {
+  background: #2d2d2d;
+  border-left-color: #17a2b8;
+}
+
+body.theme-dark .info-section li {
+  background: #1e1e1e;
+  color: #b0b0b0;
+}
+
+/* Color Schemes */
+body.color-green .setting-card {
+  border-left-color: #28a745;
+}
+
+body.color-purple .setting-card {
+  border-left-color: #6f42c1;
+}
+
+body.color-red .setting-card {
+  border-left-color: #dc3545;
+}
+
+body.color-orange .setting-card {
+  border-left-color: #fd7e14;
+}
+
+@media (max-width: 768px) {
+  .theme-container {
+    margin: 20px 10px;
+    padding: 15px;
+  }
+
+  .theme-container h1 {
+    font-size: 1.8em;
+  }
+
+  .settings-section {
+    grid-template-columns: 1fr;
+  }
+
+  .setting-card {
+    padding: 15px;
+  }
+
+  .preview-section,
+  .info-section {
+    padding: 15px;
+  }
+}
