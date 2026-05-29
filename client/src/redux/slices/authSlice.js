@@ -3,7 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
   user: null,
   token: localStorage.getItem('token') || null,
-  role: localStorage.getItem('role') || null,
+  role: localStorage.getItem('userRole') || null,
   loading: false,
   error: null,
   isAuthenticated: !!localStorage.getItem('token')
@@ -64,7 +64,7 @@ const authSlice = createSlice({
       state.error = null;
       
       localStorage.removeItem('token');
-      localStorage.removeItem('role');
+      localStorage.removeItem('userRole');
       localStorage.removeItem('user');
     },
 

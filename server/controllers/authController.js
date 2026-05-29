@@ -2,6 +2,13 @@ const User = require("../models/User");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
+const createToken = (user) =>
+  jwt.sign(
+    { id: user._id, role: user.role },
+    process.env.JWT_SECRET || "your-secret-key",
+    { expiresIn: "7d" }
+  );
+
 
 // STUDENT SIGNUP (ONLY STUDENTS)
 const signup = async (req, res) => {
@@ -27,10 +34,13 @@ const signup = async (req, res) => {
       role: "student"  // EXPLICITLY SET TO STUDENT ONLY
     });
 
+    const token = createToken(user);
+
     res.status(201).json({
       message: "Student registered successfully",
+      token,
       user: {
-        id: user._id,
+        _id: user._id,
         name: user.name,
         email: user.email,
         role: user.role
@@ -62,6 +72,12 @@ const login = async (req, res) => {
       });
     }
 
+    if (user.role !== "student") {
+      return res.status(403).json({
+        message: "Please use the admin login page for admin accounts"
+      });
+    }
+
     const isMatch = await bcrypt.compare(password, user.password);
 
     if (!isMatch) {
@@ -70,17 +86,13 @@ const login = async (req, res) => {
       });
     }
 
-    const token = jwt.sign(
-      { id: user._id, role: user.role },
-      process.env.JWT_SECRET || "your-secret-key",
-      { expiresIn: "7d" }
-    );
+    const token = createToken(user);
 
     res.status(200).json({
       message: "Login successful",
       token,
       user: {
-        id: user._id,
+        _id: user._id,
         name: user.name,
         email: user.email,
         role: user.role
@@ -125,10 +137,13 @@ const adminSignup = async (req, res) => {
       role: "admin"
     });
 
+    const token = createToken(admin);
+
     res.status(201).json({
       message: "Admin registered successfully",
+      token,
       admin: {
-        id: admin._id,
+        _id: admin._id,
         name: admin.name,
         email: admin.email,
         role: admin.role
@@ -171,17 +186,13 @@ const adminLogin = async (req, res) => {
       });
     }
 
-    const token = jwt.sign(
-      { id: admin._id, role: admin.role },
-      process.env.JWT_SECRET || "your-secret-key",
-      { expiresIn: "7d" }
-    );
+    const token = createToken(admin);
 
     res.status(200).json({
       message: "Admin login successful",
       token,
       user: {
-        id: admin._id,
+        _id: admin._id,
         name: admin.name,
         email: admin.email,
         role: admin.role

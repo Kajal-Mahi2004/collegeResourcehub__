@@ -51,47 +51,38 @@ const Navbar = () => {
       <div className={`nav-links ${showMenu ? "active" : ""}`}>
         {!token ? (
           <>
-            <button onClick={() => handleNavigation("/")}>Home</button>
-            <button onClick={() => handleNavigation("/signup")}>Signup</button>
-            <button onClick={() => handleNavigation("/student-login")} className="student-link">
-              👨‍🎓 Student Login
-            </button>
-            <button onClick={() => handleNavigation("/admin-login")} className="admin-link">
-              👨‍💼 Admin Login
+            <button onClick={() => handleNavigation("/login")} className="login-link">
+              Login
             </button>
           </>
         ) : (
           <>
+            <button onClick={() => handleNavigation("/")}>Home</button>
+
             {role === "admin" ? (
               <>
                 <button onClick={() => handleNavigation("/admin-dashboard")}>
                   📊 Admin Dashboard
                 </button>
-                <button onClick={() => handleNavigation("/theme")}>🎨 Theme</button>
-                <div className="user-info">
-                  <span>👨‍💼 {user?.name || "Admin"}</span>
-                </div>
-                <button onClick={handleLogout} className="logout-btn">
-                  Logout
-                </button>
               </>
             ) : (
               <>
                 <button onClick={() => handleNavigation("/student-dashboard")}>
-                  📚 Student Dashboard
+                  📚 Study Resources
                 </button>
-                <button onClick={() => handleNavigation("/resources")}>
+                {/* <button onClick={() => handleNavigation("/resources")}>
                   📥 Study Resources
-                </button>
-                <button onClick={() => handleNavigation("/theme")}>🎨 Theme</button>
-                <div className="user-info">
-                  <span>👨‍🎓 {user?.name || "Student"}</span>
-                </div>
-                <button onClick={handleLogout} className="logout-btn">
-                  Logout
-                </button>
+                </button> */}
               </>
             )}
+
+            <div className="user-info">
+              <span>{role === "admin" ? `👨‍💼 ${user?.name || "Admin"}` : `👨‍🎓 ${user?.name || "Student"}`}</span>
+            </div>
+
+            <button onClick={handleLogout} className="logout-btn">
+              Logout
+            </button>
           </>
         )}
       </div>

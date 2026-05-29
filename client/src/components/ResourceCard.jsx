@@ -1,9 +1,6 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
 
 export default function ResourceCard({ resource }) {
-  const navigate = useNavigate();
-
   const getTypeColor = (type) => {
     const colors = {
       note: 'bg-blue-600',
@@ -42,12 +39,12 @@ export default function ResourceCard({ resource }) {
           <span>⬇️ {resource.downloads}</span>
         </div>
 
-        {/* View Button */}
+        {/* Open Button */}
         <button
-          onClick={() => navigate(`/resource/${resource._id}`)}
+          onClick={() => window.open(resource.fileUrl, '_blank', 'noopener,noreferrer')}
           className="w-full px-4 py-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-all"
         >
-          View Resource
+          Open Resource
         </button>
       </div>
     </div>

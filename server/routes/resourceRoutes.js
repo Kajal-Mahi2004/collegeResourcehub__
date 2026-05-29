@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const { uploadResourceFile } = require("../middleware/uploadMiddleware");
 const {
   getAllResources,
   getResourcesBySubject,
@@ -8,7 +9,8 @@ const {
   updateResource,
   approveResource,
   deleteResource,
-  incrementDownloads
+  incrementDownloads,
+  serveResourceFile
 } = require("../controllers/resourceController");
 const { protect, adminOnly } = require("../middleware/authMiddleware");
 
@@ -16,9 +18,10 @@ const { protect, adminOnly } = require("../middleware/authMiddleware");
 router.get("/", getAllResources);
 router.get("/subject/:subjectId", getResourcesBySubject);
 router.get("/:id", getResource);
+router.get("/:id/file", serveResourceFile);
 
-// Protected routes - anyone authenticated can create resources
-router.post("/", protect, createResource);
+// Protected routes - admin only can upload resources
+router.post("/", protect, adminOnly, uploadResourceFile, createResource);
 router.put("/:id", protect, updateResource);
 router.post("/:id/download", incrementDownloads);
 

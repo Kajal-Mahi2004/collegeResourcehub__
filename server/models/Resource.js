@@ -18,6 +18,21 @@ const resourceSchema = new mongoose.Schema(
       type: String,
       required: true
     },
+    fileName: {
+      type: String
+    },
+    course: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Course"
+    },
+    branch: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Branch"
+    },
+    semester: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Semester"
+    },
     subject: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Subject",
@@ -40,9 +55,6 @@ const resourceSchema = new mongoose.Schema(
       type: Boolean,
       default: false
     },
-    semester: {
-      type: Number
-    },
     fileSize: {
       type: String
     },
@@ -56,6 +68,7 @@ const resourceSchema = new mongoose.Schema(
 );
 
 // Indexes for filtering
+resourceSchema.index({ course: 1, branch: 1, semester: 1, subject: 1, type: 1 });
 resourceSchema.index({ subject: 1, type: 1 });
 resourceSchema.index({ uploadedBy: 1 });
 resourceSchema.index({ approved: 1 });

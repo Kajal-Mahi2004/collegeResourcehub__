@@ -24,29 +24,6 @@ const userSchema = new mongoose.Schema(
       default: "student"
     },
 
-    avatar: {
-      type: String,
-      default: null
-    },
-
-    course: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Course",
-      default: null
-    },
-
-    branch: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Branch",
-      default: null
-    },
-
-    semester: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Semester",
-      default: null
-    },
-
     createdAt: {
       type: Date,
       default: Date.now

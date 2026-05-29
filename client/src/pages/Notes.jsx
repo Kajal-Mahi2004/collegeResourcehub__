@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../services/api";
 
 import Navbar from "../components/Navbar";
 
@@ -14,9 +14,7 @@ const Notes = () => {
 
     try {
 
-      const res = await axios.get(
-        "http://localhost:5000/api/notes/all"
-      );
+      const res = await api.get("/notes/all");
 
       setNotes(res.data);
 
@@ -56,10 +54,11 @@ const Notes = () => {
                 <p>{note.subject}</p>
 
                 <a
-                  href={`http://localhost:5000/uploads/${note.fileUrl}`}
+                  href={note.fileUrl}
                   target="_blank"
+                  rel="noopener noreferrer"
                 >
-                  Download PDF
+                  Open in New Tab
                 </a>
 
               </div>

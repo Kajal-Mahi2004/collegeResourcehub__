@@ -2,15 +2,12 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import Signup from "./pages/Signup";
 import Login from "./pages/Login";
-import StudentLogin from "./pages/StudentLogin";
-import AdminLogin from "./pages/AdminLogin";
 import Dashboard from "./pages/Dashboard";
 import UploadNotes from "./pages/UploadNotes";
 import Notes from "./pages/Notes";
 import Home from "./pages/Home";
 import AdminDashboard from "./pages/AdminDashboard";
 import StudentDashboard from "./pages/StudentDashboard";
-import StudentResources from "./pages/StudentResources";
 import Theme from "./pages/Theme";
 import ProtectedRoute from "./components/ProtectedRoute";
 
@@ -26,11 +23,11 @@ function App() {
 
         <Route path="/signup" element={<Signup />} />
 
-        <Route path="/login" element={<StudentLogin />} />
+        <Route path="/login" element={<Login defaultLoginType="student" />} />
 
-        <Route path="/student-login" element={<StudentLogin />} />
+        <Route path="/student-login" element={<Login defaultLoginType="student" />} />
 
-        <Route path="/admin-login" element={<AdminLogin />} />
+        <Route path="/admin-login" element={<Login defaultLoginType="admin" />} />
 
         <Route 
           path="/dashboard" 
@@ -59,41 +56,41 @@ function App() {
           }
         />
 
-        <Route 
+        {/* <Route 
           path="/upload" 
           element={
             <ProtectedRoute>
               <UploadNotes />
             </ProtectedRoute>
           } 
-        />
+        /> */}
 
-        <Route 
+        {/* <Route 
           path="/notes" 
           element={
             <ProtectedRoute>
               <Notes />
             </ProtectedRoute>
           } 
-        />
+        /> */}
 
         <Route
           path="/resources"
           element={
             <ProtectedRoute>
-              <StudentResources />
+              <StudentDashboard />
             </ProtectedRoute>
           }
         />
 
-        <Route
+        {/* <Route
           path="/theme"
           element={
             <ProtectedRoute>
               <Theme />
             </ProtectedRoute>
           }
-        />
+        /> */}
 
       </Routes>
 

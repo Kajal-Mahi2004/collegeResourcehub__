@@ -46,37 +46,44 @@ export default function StudentResources() {
     setLoading(false);
   };
 
-  const handleDownload = async (fileUrl, fileName, resourceId, resourceType) => {
-    try {
-      // Increment download count
-      if (resourceType === 'notes') {
-        await studentAPI.getNotes({}); // Trigger download count
-        fetch('http://localhost:5000/api/admin/notes/' + resourceId + '/download', {
-          method: 'POST'
-        }).catch(err => console.log('Download count update failed'));
-      } else if (resourceType === 'pyq') {
-        fetch('http://localhost:5000/api/admin/pyq/' + resourceId + '/download', {
-          method: 'POST'
-        }).catch(err => console.log('Download count update failed'));
-      } else if (resourceType === 'syllabus') {
-        fetch('http://localhost:5000/api/admin/syllabus/' + resourceId + '/download', {
-          method: 'POST'
-        }).catch(err => console.log('Download count update failed'));
-      }
-
-      // Trigger download
-      const link = document.createElement('a');
-      link.href = fileUrl;
-      link.download = fileName || 'download';
-      link.click();
-    } catch (error) {
-      console.error('Download error:', error);
-      alert('Error downloading file');
-    }
+  const handleOpen = (fileUrl) => {
+    window.open(fileUrl, '_blank', 'noopener,noreferrer');
   };
 
-  const ResourceCard = ({ resource, type, onDownload }) => (
+  const renderPreview = (resource) => {
+    const url = resource.fileUrl || '';
+    const mime = (resource.mimeType || '').toLowerCase();
+
+    // Image preview
+    if (mime.startsWith('image/') || /\.(png|jpe?g|gif|webp|svg)$/i.test(url)) {
+      return (
+        <div className="resource-preview">
+          <img src={resource.fileUrl} alt={resource.title} className="resource-preview-img" />
+        </div>
+      );
+    }
+
+    // PDF inline preview
+    if (mime === 'application/pdf' || /\.pdf$/i.test(url)) {
+      return (
+        <div className="resource-preview resource-preview-pdf">
+          <iframe src={resource.fileUrl} title={resource.title} width="100%" height="300px" />
+        </div>
+      );
+    }
+
+    // Other document types: show file name and open link
+    return (
+      <div className="resource-preview resource-preview-file">
+        <p className="file-name">{resource.fileName || resource.title}</p>
+        <a href={resource.fileUrl} target="_blank" rel="noopener noreferrer" className="view-link">Open / Preview</a>
+      </div>
+    );
+  };
+
+  const ResourceCard = ({ resource, type }) => (
     <div className="resource-card">
+      {renderPreview(resource)}
       <div className="resource-header">
         <h3 className="resource-title">{resource.title}</h3>
         <span className="resource-badge">{type}</span>
@@ -92,12 +99,11 @@ export default function StudentResources() {
         <p className="resource-description">{resource.description}</p>
       )}
       <div className="resource-footer">
-        <span className="download-count">⬇️ {resource.downloads || 0} downloads</span>
         <button
-          onClick={() => onDownload(resource.fileUrl, resource.fileName, resource._id, type.toLowerCase())}
+          onClick={() => handleOpen(resource._id)}
           className="download-btn"
         >
-          📥 Download
+          👁️ Open Resource
         </button>
       </div>
     </div>
@@ -175,7 +181,7 @@ export default function StudentResources() {
               {notes.length > 0 ? (
                 <div className="resources-grid">
                   {notes.map(note => (
-                    <ResourceCard key={note._id} resource={note} type="Notes" onDownload={handleDownload} />
+                    <ResourceCard key={note._id} resource={note} type="Notes" />
                   ))}
                 </div>
               ) : (
@@ -195,7 +201,7 @@ export default function StudentResources() {
               {pyqs.length > 0 ? (
                 <div className="resources-grid">
                   {pyqs.map(pyq => (
-                    <ResourceCard key={pyq._id} resource={pyq} type="PYQ" onDownload={handleDownload} />
+                    <ResourceCard key={pyq._id} resource={pyq} type="PYQ" />
                   ))}
                 </div>
               ) : (
@@ -215,7 +221,7 @@ export default function StudentResources() {
               {syllabuses.length > 0 ? (
                 <div className="resources-grid">
                   {syllabuses.map(syllabus => (
-                    <ResourceCard key={syllabus._id} resource={syllabus} type="Syllabus" onDownload={handleDownload} />
+                    <ResourceCard key={syllabus._id} resource={syllabus} type="Syllabus" />
                   ))}
                 </div>
               ) : (

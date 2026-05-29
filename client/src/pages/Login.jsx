@@ -1,15 +1,16 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { setLoginSuccess } from "../redux/slices/authSlice";
+import api from "../services/api";
 import Navbar from "../components/Navbar";
+import { useToast } from "../components/Toast";
 import "./Login.css";
 
-const Login = () => {
+const Login = ({ defaultLoginType = "student" }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [loginType, setLoginType] = useState("student"); // "student" or "admin"
+  const [loginType, setLoginType] = useState(defaultLoginType); // "student" or "admin"
 
   const [formData, setFormData] = useState({
     email: "",
@@ -19,6 +20,20 @@ const Login = () => {
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const showToast = useToast();
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    const role = localStorage.getItem("userRole");
+
+    if (token && role === "admin") {
+      navigate("/admin-dashboard", { replace: true });
+    }
+
+    if (token && role === "student") {
+      navigate("/student-dashboard", { replace: true });
+    }
+  }, [navigate]);
 
   const handleChange = (e) => {
     setFormData({
@@ -37,7 +52,7 @@ const Login = () => {
 
       if (loginType === "admin") {
         // Admin login
-        endpoint = "http://localhost:5000/api/auth/admin-login";
+        endpoint = "/auth/admin/login";
         payload = {
           email: formData.email,
           password: formData.password,
@@ -45,14 +60,14 @@ const Login = () => {
         };
       } else {
         // Student login
-        endpoint = "http://localhost:5000/api/auth/login";
+        endpoint = "/auth/login";
         payload = {
           email: formData.email,
           password: formData.password
         };
       }
 
-      const res = await axios.post(endpoint, payload);
+      const res = await api.post(endpoint, payload);
 
       // Save to Redux store with user and token
       dispatch(setLoginSuccess({
@@ -64,9 +79,9 @@ const Login = () => {
       localStorage.setItem("token", res.data.token);
       localStorage.setItem("userRole", res.data.user.role);
       localStorage.setItem("userName", res.data.user.name);
-      localStorage.setItem("userId", res.data.user._id);
+      localStorage.setItem("userId", res.data.user._id || res.data.user.id);
 
-      alert(res.data.message);
+      showToast(res.data.message, 'success');
 
       // Navigate based on user role
       if (res.data.user.role === "admin") {
@@ -78,7 +93,7 @@ const Login = () => {
     } catch (error) {
       const message = error.response?.data?.message || "Login failed";
       setError(message);
-      alert(message);
+      showToast(message, 'error');
     } finally {
       setLoading(false);
     }
@@ -89,7 +104,7 @@ const Login = () => {
       <Navbar />
       <div className="login-container">
         <form className="login-form" onSubmit={handleSubmit}>
-          <h1>Login</h1>
+          <h1>Secure Login</h1>
 
           {/* Login Type Selector */}
           <div className="login-type-selector">
@@ -154,7 +169,7 @@ const Login = () => {
           </button>
 
           <p className="signup-link">
-            Don't have an account? <a href="/signup">Sign up here</a>
+            Student account only? <Link to="/signup">Sign up here</Link>
           </p>
 
         </form>

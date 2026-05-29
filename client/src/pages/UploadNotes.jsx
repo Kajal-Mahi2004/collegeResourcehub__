@@ -1,5 +1,5 @@
 import { useState } from "react";
-import axios from "axios";
+import api from "../services/api";
 
 import Navbar from "../components/Navbar";
 
@@ -24,10 +24,7 @@ const UploadNotes = () => {
 
     try {
 
-      const res = await axios.post(
-        "http://localhost:5000/api/notes/upload",
-        formData
-      );
+      const res = await api.post("/notes/upload", formData);
 
       alert(res.data.message);
 

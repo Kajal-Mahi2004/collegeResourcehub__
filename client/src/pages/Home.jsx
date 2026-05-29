@@ -21,8 +21,8 @@ const Home = () => {
           </p>
 
           <div className="hero-buttons">
-            <button className="signup-btn" onClick={() => navigate("/signup")}>
-              Get Started
+            <button className="signup-btn" onClick={() => navigate("/login")}>
+              Login
             </button>
 
             <button className="notes-btn">
@@ -31,19 +31,13 @@ const Home = () => {
           </div>
 
           <div className="login-section">
-            <p className="login-text">Already have an account?</p>
+            <p className="login-text">New here? Student signup only.</p>
             <div className="login-options">
               <button 
                 className="student-login-btn"
-                onClick={() => navigate("/student-login")}
+                onClick={() => navigate("/signup")}
               >
-                👨‍🎓 Student Login
-              </button>
-              <button 
-                className="admin-login-btn"
-                onClick={() => navigate("/admin-login")}
-              >
-                👨‍💼 Admin Login
+                👨‍🎓 Student Signup
               </button>
             </div>
           </div>

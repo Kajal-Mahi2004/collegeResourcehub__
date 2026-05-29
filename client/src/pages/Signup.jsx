@@ -1,25 +1,38 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { setLoginSuccess } from "../redux/slices/authSlice";
+import api from "../services/api";
 import Navbar from "../components/Navbar";
+import { useToast } from "../components/Toast";
 import "./Signup.css";
 
 const Signup = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [signupType, setSignupType] = useState("student"); // "student" or "admin"
 
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     password: "",
-    adminKey: ""
   });
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const showToast = useToast();
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    const role = localStorage.getItem("userRole");
+
+    if (token && role === "admin") {
+      navigate("/admin-dashboard", { replace: true });
+    }
+
+    if (token && role === "student") {
+      navigate("/student-dashboard", { replace: true });
+    }
+  }, [navigate]);
 
   const handleChange = (e) => {
     setFormData({
@@ -34,28 +47,14 @@ const Signup = () => {
     setError("");
 
     try {
-      let endpoint, payload;
+      const endpoint = "/auth/signup";
+      const payload = {
+        name: formData.name,
+        email: formData.email,
+        password: formData.password
+      };
 
-      if (signupType === "admin") {
-        // Admin signup
-        endpoint = "http://localhost:5000/api/auth/admin-signup";
-        payload = {
-          name: formData.name,
-          email: formData.email,
-          password: formData.password,
-          adminKey: formData.adminKey
-        };
-      } else {
-        // Student signup
-        endpoint = "http://localhost:5000/api/auth/signup";
-        payload = {
-          name: formData.name,
-          email: formData.email,
-          password: formData.password
-        };
-      }
-
-      const res = await axios.post(endpoint, payload);
+      const res = await api.post(endpoint, payload);
 
       // Save to Redux store
       dispatch(setLoginSuccess({
@@ -69,19 +68,14 @@ const Signup = () => {
       localStorage.setItem("userName", res.data.user.name);
       localStorage.setItem("userId", res.data.user._id);
 
-      alert(res.data.message);
+      showToast(res.data.message, 'success');
       
-      // Redirect based on role
-      if (res.data.user.role === "admin") {
-        navigate("/admin-dashboard");
-      } else {
-        navigate("/student-dashboard");
-      }
+      navigate("/student-dashboard");
 
     } catch (error) {
       const message = error.response?.data?.message || "Signup failed";
       setError(message);
-      alert(message);
+      showToast(message, 'error');
     } finally {
       setLoading(false);
     }
@@ -92,33 +86,7 @@ const Signup = () => {
       <Navbar />
       <div className="signup-container">
         <form className="signup-form" onSubmit={handleSubmit}>
-          <h1>Sign Up</h1>
-
-          {/* Signup Type Selector */}
-          <div className="signup-type-selector">
-            <button
-              type="button"
-              className={`type-btn ${signupType === "student" ? "active" : ""}`}
-              onClick={() => {
-                setSignupType("student");
-                setError("");
-                setFormData({ name: "", email: "", password: "", adminKey: "" });
-              }}
-            >
-              👨‍🎓 Student Signup
-            </button>
-            <button
-              type="button"
-              className={`type-btn ${signupType === "admin" ? "active" : ""}`}
-              onClick={() => {
-                setSignupType("admin");
-                setError("");
-                setFormData({ name: "", email: "", password: "", adminKey: "" });
-              }}
-            >
-              👨‍💼 Admin Signup
-            </button>
-          </div>
+          <h1>Student Sign Up</h1>
 
           {error && <div className="error-message">{error}</div>}
 
@@ -149,24 +117,12 @@ const Signup = () => {
             required
           />
 
-          {/* Admin Key field - only shown for admin signup */}
-          {signupType === "admin" && (
-            <input
-              type="password"
-              name="adminKey"
-              placeholder="Enter Admin Secret Key"
-              value={formData.adminKey}
-              onChange={handleChange}
-              required
-            />
-          )}
-
           <button type="submit" disabled={loading}>
             {loading ? "Signing up..." : "Sign Up"}
           </button>
 
           <p className="login-link">
-            Already have an account? <a href="/login">Login here</a>
+            Already have an account? <Link to="/login">Login here</Link>
           </p>
 
         </form>

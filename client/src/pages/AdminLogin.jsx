@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
 import { setLoginSuccess } from "../redux/slices/authSlice";
+import api from "../services/api";
 import "./AdminLogin.css";
 
 const AdminLogin = () => {
@@ -32,8 +32,8 @@ const AdminLogin = () => {
     setError("");
 
     try {
-      const res = await axios.post(
-        "http://localhost:5000/api/auth/admin/login",
+      const res = await api.post(
+        "/auth/admin/login",
         {
           email: formData.email,
           password: formData.password,

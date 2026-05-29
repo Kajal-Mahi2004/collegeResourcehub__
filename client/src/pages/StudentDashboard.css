@@ -1,91 +1,110 @@
 .student-dashboard {
+  min-height: 100vh;
+  padding: 32px 20px 48px;
+  background: linear-gradient(180deg, #fff 0%, #fff7f7 100%);
+}
+
+.student-hero {
   max-width: 1200px;
-  margin: 40px auto;
-  padding: 20px;
+  margin: 0 auto 24px;
+  padding: 28px 28px 24px;
+  border-radius: 20px;
+  background: linear-gradient(135deg, #7f1d1d 0%, #b91c1c 100%);
+  color: #fff;
+  box-shadow: 0 16px 40px rgba(127, 29, 29, 0.22);
 }
 
-.student-dashboard h1 {
+.student-hero h1 {
   text-align: center;
-  color: #333;
-  margin-bottom: 30px;
-  font-size: 2.5em;
+  color: #fff;
+  margin-bottom: 10px;
+  font-size: 2.2rem;
 }
 
-.tabs {
-  display: flex;
-  gap: 10px;
-  margin-bottom: 30px;
-  border-bottom: 2px solid #e0e0e0;
-  flex-wrap: wrap;
-}
-
-.tab-btn {
-  padding: 12px 24px;
-  border: none;
-  background: transparent;
-  cursor: pointer;
-  font-size: 1em;
-  color: #666;
-  border-bottom: 3px solid transparent;
-  transition: all 0.3s ease;
-}
-
-.tab-btn:hover {
-  color: #333;
-  border-bottom-color: #666;
-}
-
-.tab-btn.active {
-  color: #007bff;
-  border-bottom-color: #007bff;
-  font-weight: bold;
+.student-hero p {
+  text-align: center;
+  color: rgba(255, 255, 255, 0.9);
+  max-width: 760px;
+  margin: 0 auto;
 }
 
 .filters {
   display: flex;
-  gap: 15px;
-  margin-bottom: 30px;
+  gap: 14px;
+  margin: 0 auto 28px;
+  max-width: 1200px;
   flex-wrap: wrap;
+  align-items: center;
+}
+
+.tab-btn {
+  padding: 12px 18px;
+  border: none;
+  background: #fff;
+  border: 1px solid #f3c4c4;
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 1em;
+  color: #7f1d1d;
+  transition: all 0.3s ease;
+}
+
+.tab-btn:hover {
+  border-color: #dc2626;
+  box-shadow: 0 8px 18px rgba(220, 38, 38, 0.12);
+}
+
+.tab-btn.active {
+  background: linear-gradient(135deg, #dc2626, #991b1b);
+  color: #fff;
+  border-color: #991b1b;
+  font-weight: bold;
 }
 
 .filter-select {
-  padding: 10px 15px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
+  padding: 12px 14px;
+  border: 1px solid #efc1c1;
+  border-radius: 12px;
   font-size: 1em;
   background: white;
   cursor: pointer;
   transition: all 0.3s ease;
+  min-width: 190px;
 }
 
 .filter-select:hover {
-  border-color: #007bff;
-  box-shadow: 0 2px 5px rgba(0, 123, 255, 0.1);
+  border-color: #dc2626;
+  box-shadow: 0 2px 8px rgba(220, 38, 38, 0.1);
 }
 
 .filter-select:focus {
   outline: none;
-  border-color: #007bff;
-  box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+  border-color: #dc2626;
+  box-shadow: 0 0 5px rgba(220, 38, 38, 0.25);
 }
 
 .loading {
   text-align: center;
   padding: 40px;
   font-size: 1.2em;
-  color: #666;
+  color: #7f1d1d;
 }
 
 .no-resources {
   text-align: center;
   padding: 40px;
-  background: #f9f9f9;
-  border-radius: 10px;
-  color: #999;
+  background: #fff;
+  border: 1px solid #f3c4c4;
+  border-radius: 16px;
+  color: #7f1d1d;
   font-size: 1.1em;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 .resources-grid {
+  max-width: 1200px;
+  margin: 0 auto;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 20px;
@@ -93,10 +112,10 @@
 
 .resource-card {
   background: white;
-  border: 1px solid #e0e0e0;
-  border-radius: 10px;
+  border: 1px solid #f4d2d2;
+  border-radius: 16px;
   padding: 20px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 8px 24px rgba(127, 29, 29, 0.08);
   transition: all 0.3s ease;
   display: flex;
   flex-direction: column;
@@ -104,26 +123,18 @@
 
 .resource-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
-}
-
-.resource-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 10px;
-  margin-bottom: 10px;
+  box-shadow: 0 14px 32px rgba(127, 29, 29, 0.12);
 }
 
 .resource-header h3 {
   margin: 0;
-  color: #333;
-  font-size: 1.3em;
+  color: #111827;
+  font-size: 1.2em;
   flex: 1;
 }
 
 .subject-badge {
-  background: #007bff;
+  background: linear-gradient(135deg, #dc2626, #991b1b);
   color: white;
   padding: 5px 10px;
   border-radius: 20px;
@@ -132,17 +143,17 @@
 }
 
 .semester {
-  color: #666;
+  color: #4b5563;
   margin: 8px 0;
 }
 
 .year {
-  color: #666;
+  color: #4b5563;
   margin: 8px 0;
 }
 
 .description {
-  color: #888;
+  color: #6b7280;
   font-size: 0.95em;
   margin: 10px 0;
   flex-grow: 1;
@@ -155,46 +166,48 @@
   align-items: center;
   margin-top: auto;
   padding-top: 15px;
-  border-top: 1px solid #f0f0f0;
+  border-top: 1px solid #f4d2d2;
 }
 
 .uploaded-by {
-  color: #999;
+  color: #7f1d1d;
   font-size: 0.9em;
 }
 
 .download-btn {
-  background: #28a745;
+  background: linear-gradient(135deg, #dc2626, #991b1b);
   color: white;
   border: none;
   padding: 10px 20px;
-  border-radius: 5px;
+  border-radius: 12px;
   cursor: pointer;
   font-size: 0.95em;
   transition: all 0.3s ease;
+
 }
 
 .download-btn:hover {
-  background: #218838;
-  transform: scale(1.05);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(220, 38, 38, 0.18);
 }
 
 .download-btn:active {
   transform: scale(0.98);
 }
 
+.type-tabs {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
 @media (max-width: 768px) {
   .student-dashboard {
-    margin: 20px 10px;
-    padding: 15px;
+    padding: 20px 14px 40px;
   }
 
-  .student-dashboard h1 {
-    font-size: 1.8em;
-  }
-
-  .tabs {
-    flex-direction: column;
+  .student-hero h1 {
+    font-size: 1.7rem;
   }
 
   .tab-btn {
@@ -204,10 +217,12 @@
 
   .filters {
     flex-direction: column;
+    align-items: stretch;
   }
 
   .filter-select {
     width: 100%;
+    min-width: 0;
   }
 
   .resources-grid {

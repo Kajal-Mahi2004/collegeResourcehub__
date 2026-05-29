@@ -22,12 +22,12 @@ export default function ResourceViewer() {
     fetchResource();
   }, [resourceId]);
 
-  const handleDownload = async () => {
+  const handleOpen = async () => {
     try {
-      await resourceAPI.incrementDownloads(resourceId);
-      window.open(resource.fileUrl, '_blank');
+      const fileUrl = resource?.fileUrl || `/api/resources/${resourceId}/file`;
+      window.open(fileUrl, '_blank', 'noopener,noreferrer');
     } catch (error) {
-      console.error('Error downloading resource:', error);
+      console.error('Error opening resource:', error);
     }
   };
 
@@ -54,6 +54,13 @@ export default function ResourceViewer() {
           <p className="text-gray-400">
             Subject: <span className="text-gray-200">{resource.subject?.name}</span>
           </p>
+
+          <button
+            onClick={handleOpen}
+            className="w-full mt-3 px-8 py-3 bg-slate-700 text-white font-bold rounded-lg hover:bg-slate-600 transition-all duration-300"
+          >
+            Open Resource in New Tab
+          </button>
         </div>
 
         {/* Description */}
@@ -80,20 +87,12 @@ export default function ResourceViewer() {
           </div>
         </div>
 
-        {/* Download Button */}
-        <button
-          onClick={handleDownload}
-          className="w-full px-8 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-bold rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-300"
-        >
-          Download Resource
-        </button>
-
         {/* File Preview */}
         {resource.mimeType?.includes('pdf') && (
           <div className="mt-8">
             <h2 className="text-xl font-semibold text-white mb-4">Preview</h2>
             <iframe
-              src={resource.fileUrl}
+              src={resource.fileUrl || `/api/resources/${resourceId}/file`}
               className="w-full h-screen rounded-lg"
               title="PDF Preview"
             />
